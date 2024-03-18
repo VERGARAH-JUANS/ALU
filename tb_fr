@@ -1,0 +1,67 @@
+`timescale 1 ns/10 ps
+
+module tb_su();
+	//Signals
+	localparam	N = 8;
+	reg[1:0]		shamt_tb;
+	reg[N-1:0]		dataa_tb;
+	wire[N-1:0]		dataout_tb;
+	
+	//Instantiate DUT
+	shift_unit #(.N(8)) DUT (
+		.shamt(shamt_tb),
+		.dataa(dataa_tb),
+		.dataout(dataout_tb)
+		
+	);
+	
+	
+	//Test signal generator
+	initial
+	begin
+		
+		//test vector 000
+		dataa_tb	=	8'b10101010;
+		shamt_tb	=	2'b00;
+		# 200;
+		
+		//test vector 001
+		dataa_tb	=	8'b01100111;
+		shamt_tb	=	2'b00;
+		# 200;
+		
+		//test vector 002
+		dataa_tb	=	8'b10101010;
+		shamt_tb	=	2'b01;
+		# 200;
+		
+		//test vector 003
+		dataa_tb	=	8'b01100111;
+		shamt_tb	=	2'b01;
+		# 200;
+		
+		//test vector 004
+		dataa_tb	=	8'b10101010;
+		shamt_tb	=	2'b10;
+		# 200;
+		
+		//test vector 005
+		dataa_tb	=	8'b01100111;
+		shamt_tb	=	2'b10;
+		# 200;
+		
+		//test vector 006
+		dataa_tb	=	8'b10101010;
+		shamt_tb	=	2'b11;
+		# 200;
+		
+		//test vector 007
+		dataa_tb	=	8'b01100111;
+		shamt_tb	=	2'b11;
+		# 200;
+		
+		
+		//stop simulation
+		$stop;
+	end
+endmodule
