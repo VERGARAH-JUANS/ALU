@@ -1,0 +1,48 @@
+`timescale 1 ns/10 ps
+
+module tb_pru();
+	//Signals
+	localparam N = 8;
+	reg [N-1:0] dataa_tb;
+	reg [N-1:0] datab_tb;
+	reg [2:0] selop_tb;
+	wire [N-1:0] res_tb;
+	wire cout_tb;
+	
+	//Instantiate DUT
+	processing_unit #(.N(8)) DUT (
+    .dataa(dataa_tb),
+    .datab(datab_tb),
+    .selop(selop_tb),
+    .res(res_tb),
+    .cout(cout_tb)
+  );
+	
+	
+	//Test signal generator
+	initial
+	begin
+		
+		//test vector 000
+		dataa_tb	=	8'b10101010;
+		datab_tb	=	8'b11111111;
+		selop_tb =	3'b111;
+		# 200;
+		
+		//test vector 001
+		dataa_tb	=	8'b10101010;
+		datab_tb	=	8'b01100111;
+		selop_tb =	3'b111;
+		# 200;
+		
+		//test vector 002
+		dataa_tb	=	8'b00100111;
+		datab_tb	=	8'b10101010;
+		selop_tb =	3'b111;
+		# 200;
+		
+		
+		//stop simulation
+		$stop;
+	end
+endmodule
