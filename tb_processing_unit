@@ -23,26 +23,185 @@ module tb_pru();
 	initial
 	begin
 		
-		//test vector 000
-		dataa_tb	=	8'b10101010;
-		datab_tb	=	8'b11111111;
-		selop_tb =	3'b111;
-		# 200;
+		//Test Selop = 000
 		
-		//test vector 001
-		dataa_tb	=	8'b10101010;
-		datab_tb	=	8'b01100111;
-		selop_tb =	3'b111;
-		# 200;
-		
-		//test vector 002
-		dataa_tb	=	8'b00100111;
+		//test vector 0
+		dataa_tb	=	8'b11111111;
 		datab_tb	=	8'b10101010;
-		selop_tb =	3'b111;
+		selop_tb =	3'b000;
 		# 200;
+		
+		//test vector 1
+		dataa_tb	=	8'b01100111;
+		datab_tb	=	8'b10101010;
+		selop_tb =	3'b000;
+		# 200;
+		
+		//test vector 2
+		dataa_tb	=	8'b10101010;
+		datab_tb	=	8'b10101010;
+		selop_tb =	3'b000;
+		# 200;
+		
+		
+		
+//		//Test Selop = 001
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b001;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b001;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b001;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 010
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b010;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b010;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b010;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 011
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b011;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b011;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b00100111;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b011;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 100
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b100;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b100;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b00100111;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b100;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 101
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b101;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b101;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b00100111;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b101;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 110
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b110;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b110;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b00100111;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b110;
+//		# 200;
+//		
+//		
+//		
+//		//Test Selop = 111
+//		
+//		//test vector 0
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b11111111;
+//		selop_tb =	3'b111;
+//		# 200;
+//		
+//		//test vector 1
+//		dataa_tb	=	8'b10101010;
+//		datab_tb	=	8'b01100111;
+//		selop_tb =	3'b111;
+//		# 200;
+//		
+//		//test vector 2
+//		dataa_tb	=	8'b00100111;
+//		datab_tb	=	8'b10101010;
+//		selop_tb =	3'b111;
+//		# 200;
+		
+		
 		
 		
 		//stop simulation
 		$stop;
 	end
 endmodule
+
