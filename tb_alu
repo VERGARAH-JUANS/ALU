@@ -1,0 +1,657 @@
+`timescale 1 ns/10 ps
+
+module tb_alu();
+	//Signals
+	localparam	MAX_WIDTH = 4;
+	reg			clk_tb, rst_tb, enaf_tb;
+	reg[3:0]		busA_tb, busB_tb;
+	reg[2:0]		selop_tb;
+	reg[1:0]		shamt_tb;
+	wire[3:0]	busC_tb;
+	wire			carry_f_tb, neg_f_tb, par_f_tb, zero_f_tb;
+	
+	//Instantiate DUT
+	alu #(.MAX_WIDTH(MAX_WIDTH)) DUT (
+		.clk(clk_tb),
+		.rst(rst_tb),
+		.busA(busA_tb),
+		.busB(busB_tb),
+		.selop(selop_tb),
+		.shamt(shamt_tb),
+		.enaf(enaf_tb),
+		.busC(busC_tp),
+		.C(carry_f_tb),
+		.N(neg_f_tb),
+		.P(par_f_tb),
+		.Z(zero_f_tb)
+	);
+	
+	//Clock generation
+	initial	clk_tb = 0;
+	always	#50	clk_tb = ~clk_tb;
+	
+	//Test signal generator
+	initial
+	begin
+//		busA_tb	=	4'b0000;
+//		busB_tb	=	4'b1011;
+//		selop_tb	=	3'b000;
+//		shamt_tb	=	2'b00;
+//		enaf_tb	=	1'b0;
+//		rst_tb	=	1'b1;
+//		# 50; //400
+		//////		SELOP 000
+		////Bus C = Bus B (selop 000)(shamt 00)
+		//test vector 001 // Negative flag
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b1011;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //400
+		//test vector 003 // Parity & Zero flags
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //800
+		
+		////Bus C = SRL(Bus B) (selop 000)(shamt 01)
+		//test vector 011 // Negative flag
+		busA_tb	=	4'b1000;
+		busB_tb	=	4'b1000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //1400
+		//test vector 013 // Parity & Zero flags
+		busA_tb	=	4'b0001;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //1800
+		
+		////Bus C = SLL(Bus B) (selop 000)(shamt 10)
+		//test vector 021 // Negative flag
+		busA_tb	=	4'b0110;
+		busB_tb	=	4'b1000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //2400
+		//test vector 023 // Parity & Zero flags
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //2800
+		
+		////Bus C = 0(Not used) (selop 000)(shamt 11)
+		//test vector 031 // Negative flag
+		busA_tb	=	4'b0011;
+		busB_tb	=	4'b1011;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //3400
+		//test vector 033 // Parity & Zero flags
+		busA_tb	=	4'b1111;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b000;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //3800
+		
+		
+		
+		//////		SELOP 001
+		////Bus C = NOT(Bus B) (selop 001)(shamt 00)
+		//test vector 104 // Parity & Zero flags
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //5000
+		//test vector 109 // Negative & Carry flags
+		busA_tb	=	4'b1110;
+		busB_tb	=	4'b0111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //6000
+		
+		////Bus C = SRL(NOT(Bus B)) (selop 001)(shamt 01)
+		//test vector 114 // Parity & Zero flags
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //7000
+		//test vector 119 // Negative & Carry flags
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0100;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //8000
+		
+		////Bus C = SLL(NOT(Bus B)) (selop 001)(shamt 10)
+		//test vector 124 // Parity & Zero flags
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //9000
+		//test vector 129 // Negative & Carry flags
+		busA_tb	=	4'b1110;
+		busB_tb	=	4'b0011;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //10000
+		
+		////Bus C = 0(Not used) (selop 001)(shamt 11)
+		//test vector 134 // Parity & Zero flags
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //11000
+		//test vector 139 // Negative & Carry flags
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0111;
+		selop_tb	=	3'b001;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //12000
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 010
+		////Bus C = Bus A AND Bus B (selop 010)(shamt 00)
+		//test vector 204 // Parity & Zero flags
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //13000
+		//test vector 209 // Negative & Carry flags
+		busA_tb	=	4'b1000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200; //14000
+		
+		////Bus C = SRL(Bus A AND Bus B) (selop 010)(shamt 01)
+		//test vector 210 // Parity & Zero flags
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 212 // Negative & Carry flags
+		busA_tb	=	4'b1000;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		
+		////Bus C = SLL(Bus A AND Bus B) (selop 010)(shamt 10)
+		//test vector 220 // Parity & Zero flags
+		busA_tb	=	4'b1010; 
+		busB_tb	=	4'b0101; 
+		selop_tb	=	3'b010;  
+		shamt_tb	=	2'b10;   
+		enaf_tb	=	1'b1;    
+		rst_tb	=	1'b0;    
+		# 200;               
+		//test vector 221 // Negative & Carry flags
+		busA_tb	=	4'b1001;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		
+		////Bus C = 0(Not used) (selop 010)(shamt 11)
+		//test vector 230
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 231 
+		busA_tb	=	4'b1000;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b010;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		
+		
+		
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 011								/////
+		//////////////////////////////////////////////////
+		////Bus C = Bus A OR Bus B (selop 011)(shamt 00)
+		//test vector 300 flag z and p
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 301 flag n and c
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////
+		////Bus C =  Bus A OR Bus B(selop 011)(shamt 01)
+		//test vector 310
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 311 flag n and c
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		////////////////////////////////////////////////////
+		////Bus C = Bus A OR Bus B (selop 011)(shamt 10)
+		//test vector 320
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 321 flag n and c
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////////
+		////Bus C = Bus A OR Bus B (selop 011)(shamt 11)
+		//test vector 320
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 321 flag n and c
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b011;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 100
+		/////////////////////////////////////////////////////
+		////Bus C = Bus A XOR Bus B (selop 100)(shamt 00)
+		//test vector 400 flag z and p
+		busA_tb	=	4'b1001;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 401 flag n
+		busA_tb	=	4'b0101;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////
+		////Bus C = Bus A XOR Bus B (selop 100)(shamt 01)
+		//test vector 410 flag z p
+		busA_tb	=	4'b1001;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 411 flag n
+		busA_tb	=	4'b0101;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////////
+		////Bus C = Bus A XOR Bus B (selop 100)(shamt 10)
+		//test vector 420 flag z p
+		busA_tb	=	4'b1001;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 421 flag n
+		busA_tb	=	4'b0101;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////////
+		////Bus C = Bus A XOR Bus B (selop 100)(shamt 11)
+		//test vector 430 flag z p
+		busA_tb	=	4'b1001;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 431 flag n
+		busA_tb	=	4'b0101;
+		busB_tb	=	4'b1100;
+		selop_tb	=	3'b100;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 101
+		//////////////////////////////////////////////////////
+		////Bus C = Bus A ADD Bus B (selop 101)(shamt 00)
+		//test vector 500 flag z p
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 501 flag n c
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b1110;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		///////////////////////////////////////////////////////
+		////Bus C = Bus A ADD Bus B (selop 101)(shamt 01)
+		//test vector 510 flag z p
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 511 flag n c
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b1110;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		///////////////////////////////////////////////////////
+		////Bus C = Bus A ADD Bus B (selop 101)(shamt 10)
+		//test vector 520 flag z p
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 521 flag n c
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b1110;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		///////////////////////////////////////////////////////
+		////Bus C = Bus A ADD Bus B (selop 101)(shamt 11)
+		//test vector 530 flag z p
+		busA_tb	=	4'b0000;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 531 flag n c
+		busA_tb	=	4'b1010;
+		busB_tb	=	4'b1110;
+		selop_tb	=	3'b101;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 110
+		//////////////////////////////////////////////
+		////Bus C = Bus B + 1 (selop 110)(shamt 00)
+		//test vector 600 flag z and p and c
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 601 flag n
+		busA_tb	=	4'b0110;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////
+		////Bus C = Bus B + 1 (selop 110)(shamt 10)
+		//test vector 600 flag z and p and c
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 601 flag n
+		busA_tb	=	4'b0110;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////
+		////Bus C = Bus B + 1 (selop 110)(shamt 10)
+		//test vector 600 flag z and p and c
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 601 flag n
+		busA_tb	=	4'b0110;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//////////////////////////////////////////////////
+		////Bus C = Bus B + 1 (selop 110)(shamt 11)
+		//test vector 600 flag z and p and c
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b1111;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 601 flag n
+		busA_tb	=	4'b0110;
+		busB_tb	=	4'b1001;
+		selop_tb	=	3'b110;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////		SELOP 111
+		////////////////////////////////////////////////////////
+		////Bus C = NOT(Bus B) + 1 (selop 111)(shamt 00)
+		//test vector 700 flag z and p and c
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 701 flag n
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b00;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////////
+		////Bus C = NOT(Bus B) + 1 (selop 111)(shamt 01)
+		//test vector 700
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 701
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b01;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////////
+		////Bus C = NOT(Bus B) + 1 (selop 111)(shamt 10)
+		//test vector 700
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 701
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b10;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////////
+		////Bus C = NOT(Bus B) + 1 (selop 111)(shamt 11)
+		//test vector 700
+		busA_tb	=	4'b1100;
+		busB_tb	=	4'b0000;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		//test vector 701
+		busA_tb	=	4'b0100;
+		busB_tb	=	4'b0101;
+		selop_tb	=	3'b111;
+		shamt_tb	=	2'b11;
+		enaf_tb	=	1'b1;
+		rst_tb	=	1'b0;
+		# 200;
+		/////////////////////////////////////////////////////////
+		//stop simulation
+		$stop;
+	end
+endmodule 
